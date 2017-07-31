@@ -3,6 +3,7 @@ package vinhmt.java8.functional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -28,8 +29,8 @@ public final class LambdaExpressions
 		// method reference: conveniently print Apple elements in allApples
 		forEach(allApples, System.out::println);
 
-		// filter
-		System.out.println("\n===== APPLY FILTER =====");
+		// predicate
+		System.out.println("\n===== APPLY PREDICATE =====");
 		List<Apple> filteredApples = filter(allApples, (Apple apple) -> apple.getWeightInGram() >= 120);
 		forEach(filteredApples, apple -> System.out.println(apple.toString()));
 
@@ -37,6 +38,10 @@ public final class LambdaExpressions
 		System.out.println("\n===== APPLY FUNCTION =====");
 		List<String> appleColors = map(allApples, (Apple apple) -> apple.getColor());
 		forEach(appleColors, color -> System.out.println(color));
+
+		// bi-predicate
+		System.out.println("\n===== APPLY BI-PREDICATE =====");
+		System.out.println("Apple colors contain 'black': " + test(appleColors, "black", List::contains));
 	}
 
 	public static <T> T create(Supplier<T> supplier)
@@ -73,6 +78,11 @@ public final class LambdaExpressions
 			results.add(function.apply(ele));
 		}
 		return results;
+	}
+
+	public static <T, U> boolean test(T list, U ele, BiPredicate<T, U> biPredicate)
+	{
+		return biPredicate.test(list, ele);
 	}
 
 }

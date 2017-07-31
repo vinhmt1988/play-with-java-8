@@ -1,7 +1,6 @@
 package vinhmt.java8.functional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -14,18 +13,14 @@ public final class BehaviorParameterization
 
 	public static void main(String[] args)
 	{
-		List<Apple> allApples = Arrays.asList(new Apple("red", 150),
-				new Apple("yellow", 120),
-				new Apple("green", 200),
-				new Apple("black", 110),
-				new Apple("white", 40.4),
-				new Apple("odd", 40));
+		List<Apple> allApples = Apple.getDefaultAppleList();
 
-		// filter apples: weighs more than 100g and has its color neither is
-		// black nor white
-		filterApples(allApples, (Apple apple) -> apple.getWeightInGram() > 100
-				&& !"black".equals(apple.getColor())
-				&& !"white".equals(apple.getColor()));
+		// filter for apples which weigh more than 100g and have their color
+		// neither is black nor white
+		Predicate<Apple> weightPredicate = (Apple apple) -> apple.getWeightInGram() > 100;
+		Predicate<Apple> colorPredicate = (Apple apple) -> "black".equals(apple.getColor())
+				|| "white".equals(apple.getColor());
+		filterApples(allApples, weightPredicate.and(colorPredicate.negate()));
 
 		// sort apples by their weight
 		Comparator<Apple> byWeight = (Apple apple1, Apple apple2) ->
@@ -48,8 +43,7 @@ public final class BehaviorParameterization
 			if (applePredicate.test(apple))
 			{
 				filteredApples.add(apple);
-				System.out.println("Added "
-						+ apple.toString());
+				System.out.println("Added " + apple.toString());
 			}
 		}
 		return filteredApples;
