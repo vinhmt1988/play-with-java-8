@@ -1,7 +1,19 @@
 package vinhmt.java8;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public final class Apple
 {
+	private static final List<Apple> DEFAULT_APPLE_LIST = Arrays.asList(new Apple("red", 150),
+			new Apple("yellow", 120),
+			new Apple("green", 200),
+			new Apple("blue", 110),
+			new Apple("black", 110),
+			new Apple("white", 40.4),
+			new Apple("colorless", 40));
+
 	private final String color;
 	private final double weightInGram;
 
@@ -21,10 +33,14 @@ public final class Apple
 		return weightInGram;
 	}
 
+	public static List<Apple> getDefaultAppleList()
+	{
+		return new ArrayList<>(DEFAULT_APPLE_LIST);
+	}
+
 	public String toString()
 	{
-		return this.getColor()
-				+ " apple: "
+		return this.getColor() + " apple: "
 				+ this.getWeightInGram()
 				+ "g.";
 	}
@@ -33,9 +49,7 @@ public final class Apple
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime
-				* result
-				+ ((color == null) ? 0 : color.hashCode());
+		result = prime * result + ((color == null) ? 0 : color.hashCode());
 		return result;
 	}
 
