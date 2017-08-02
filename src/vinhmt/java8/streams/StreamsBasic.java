@@ -23,17 +23,16 @@ public final class StreamsBasic
 	{
 		System.out.println("===== BEFORE FILTERING =====");
 		List<Apple> apples = Apple.getDefaultAppleList();
-		LambdaExpressions.forEach(apples, System.out::println);
+		apples.stream().forEach(System.out::println);
 
 		System.out.println("\n===== AFTER FILTERING =====");
-		List<String> appleColors = apples.stream()
+		apples.stream()
 				.filter((apple) -> apple.getWeightInGram() > 100)
 				.sorted(Comparator.comparing(Apple::getWeightInGram))
 				.map(Apple::getColor)
 				.distinct()
 				.limit(3)
-				.collect(Collectors.toList());
-		LambdaExpressions.forEach(appleColors, System.out::println);
+				.forEach(System.out::println);
 
 		System.out.println("\n===== A STREAM CAN BE CONSUMED ONLY ONCE =====");
 		Stream<String> blah = Arrays.asList("Java 8", "Streams", "Are", "Awesome").stream();
@@ -55,11 +54,10 @@ public final class StreamsBasic
 		List<Apple> apples = Apple.getDefaultAppleList();
 
 		System.out.println("\n===== SKIPPING =====");
-		List<Apple> skippedApples = apples.stream()
+		apples.stream()
 				.skip(2) // skip yellow and green - exception free
 				.limit(3)
-				.collect(Collectors.toList());
-		LambdaExpressions.forEach(skippedApples, System.out::println);
+				.forEach(System.out::println);
 
 		System.out.println("\n===== MULTIPLE MAPPINGS =====");
 		List<String> appleColors = apples.stream()
@@ -69,14 +67,13 @@ public final class StreamsBasic
 		LambdaExpressions.forEach(appleColors, System.out::println);
 
 		System.out.println("\n===== FLAT MAP =====");
-		List<String> flatAppleColors = appleColors.stream()
+		appleColors.stream()
 				.map(word -> word.split("")) // create a Stream<String[]> from
 												// all characters of all colors
 				.flatMap(Arrays::stream) // group all streams of String[] into a
 											// single stream of String
 				.limit(3) // limit to the first 3 characters of red
-				.collect(Collectors.toList());
-		LambdaExpressions.forEach(flatAppleColors, System.out::println);
+				.forEach(System.out::println);
 	}
 
 }

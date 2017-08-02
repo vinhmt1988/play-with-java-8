@@ -2,6 +2,7 @@ package vinhmt.java8.streams;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import vinhmt.java8.Apple;
@@ -28,12 +29,12 @@ public final class StreamsIntermediate
 		System.out.println(NUMBERS_1);
 		System.out.println(NUMBERS_2);
 
-		System.out.println("\n===== COMBINE =====");
+		System.out.println("\n===== COMBINE 2 ARRAYS =====");
 		List<int[]> arrays = NUMBERS_1.stream().flatMap(i -> NUMBERS_2.stream().map(j -> new int[]
 		{ i, j })).collect(Collectors.toList());
 		printArrays(arrays);
 
-		System.out.println("\n===== COMBINE WITH CONDITION =====");
+		System.out.println("\n===== COMBINE 2 ARRAYS WITH CONDITION =====");
 		List<int[]> filteredArrays = NUMBERS_1.stream()
 				.flatMap(i -> NUMBERS_2.stream().filter(j -> (i + j) % 3 == 0).map(j -> new int[]
 				{ i, j })).collect(Collectors.toList());
@@ -67,8 +68,16 @@ public final class StreamsIntermediate
 	private static void mapReduce()
 	{
 		System.out.println("\n===== MAP - REDUCE =====");
-		Integer reduce = Apple.getDefaultAppleList().stream().map(apple -> 1).reduce(0, (a, b) -> a + b);
-		System.out.println(reduce);
+		// Integer reduce = Apple.getDefaultAppleList().stream().map(apple ->
+		// 1).reduce(0, (a, b) -> a + b);
+		Double totalWeight = Apple.getDefaultAppleList().stream().map(apple -> apple.getWeightInGram()).reduce(0.0,
+				Double::sum);
+		System.out.println("\tSum: " + totalWeight);
+		Optional<Double> optionalMaxWeight = Apple.getDefaultAppleList()
+				.stream()
+				.map(apple -> apple.getWeightInGram())
+				.reduce(Double::max);
+		System.out.println("\tMax weight: " + (optionalMaxWeight.isPresent() ? optionalMaxWeight.get() : 0));
 	}
 
 }
